@@ -81,7 +81,7 @@ export default function SystemReset() {
       };
 
       // Call the system reset edge function
-      const { data, error } = await supabase.functions.invoke("system-reset", {
+      const { data, error } = await supabase.functions.invoke("system_reset", {
         body: resetData,
         headers: {
           Authorization: `Bearer ${session.access_token}`,

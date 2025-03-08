@@ -138,7 +138,7 @@ export default function SetupWizard() {
       };
 
       // Call the system setup edge function
-      const { data, error } = await supabase.functions.invoke("system-setup", {
+      const { data, error } = await supabase.functions.invoke("system_setup", {
         body: setupData,
       });
 

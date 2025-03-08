@@ -25,52 +25,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
-  const [isSystemInitialized, setIsSystemInitialized] = useState<
-    boolean | null
-  >(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function checkSystemInitialization() {
-      try {
-        const { data, error } = await supabase
-          .from("system_settings")
-          .select("setting_value")
-          .eq("setting_key", "system_initialized")
-          .single();
-
-        if (error && error.code !== "PGRST116") {
-          console.error("Error checking system initialization:", error);
-        }
-
-        setIsSystemInitialized(data?.setting_value === "true");
-      } catch (err) {
-        console.error("Failed to check system initialization:", err);
-        setIsSystemInitialized(false);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    checkSystemInitialization();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
-
-  // If system is not initialized, show setup wizard
-  if (isSystemInitialized === false) {
-    return (
-      <Routes>
-        <Route path="*" element={<SetupWizard />} />
-      </Routes>
-    );
-  }
+  // System is considered initialized by default
 
   return (
     <>
@@ -78,7 +33,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
-        <Route path="/setup" element={<SetupWizard />} />
+        {/* Setup wizard removed as system is initialized by default */}
         <Route
           path="/dashboard"
           element={
